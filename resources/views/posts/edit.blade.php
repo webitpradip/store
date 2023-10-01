@@ -13,7 +13,7 @@
             </div>
             <div class="form-group">
                 <label>Description:</label>
-                <textarea name="description" class="form-control" required>{{ $post->description }}</textarea>
+                <textarea rows="10" name="description" class="form-control" required>{{ $post->description }}</textarea>
             </div>
             <div class="form-group">
                 <label>File:</label>
@@ -24,7 +24,7 @@
                 <label>Group Name:</label>
                 <input type="text" name="groupname" class="form-control" value="{{ $post->groupname }}" required>
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary" style="background-color: green">Update</button>
         </form>
     </div>
 </div>

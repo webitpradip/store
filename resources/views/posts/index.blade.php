@@ -7,7 +7,7 @@
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request()->query('search') }}">
                 <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: green">Search</button>
                 </div>
             </div>
         </form>
@@ -51,7 +51,7 @@
                     <td>{{ $post->groupname }}</td>
                     <td>{{ $post->created_at }}</td>
                     <td>
-                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-primary" style="background-color: green">Edit</a>
                     </td>
                 </tr>
                 @endforeach

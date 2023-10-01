@@ -12,13 +12,7 @@ class PostsTableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('posts')->insert([
-            'title' => 'Sample Title',
-            'description' => 'Sample long description...',
-            'filelinks' => 'http://example.com',
-            'groupname' => 'Sample Group',
 
-        ]);
     }
 
 
