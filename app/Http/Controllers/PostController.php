@@ -44,7 +44,7 @@ public function store(Request $request)
     if ($request->hasFile('filelinks')) {
         $file = $request->file('filelinks');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $path = $file->storeAs('uploads', $filename, 'public');
+        $path = $file->storeAs('uploads/'.$request->groupname, $filename, 'public');
         $data['filelinks'] = '/storage/' . $path;
     }
 
@@ -66,7 +66,7 @@ public function update(Request $request, $id)
 
         $file = $request->file('filelinks');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $path = $file->storeAs('uploads', $filename, 'public');
+        $path = $file->storeAs('uploads/'.$request->groupname, $filename, 'public');
         $data['filelinks'] = '/storage/' . $path;
     }
 
