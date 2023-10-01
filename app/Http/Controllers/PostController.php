@@ -14,6 +14,7 @@ public function index(Request $request)
     $query = Post::query();
 
     if ($search) {
+        $search = str_ireplace(" ","%",$search);
         $query->where('title', 'LIKE', "%{$search}%")
               ->orWhere('description', 'LIKE', "%{$search}%")
               ->orWhere('groupname', 'LIKE', "%{$search}%");
