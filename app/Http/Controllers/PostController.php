@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -46,7 +47,7 @@ public function store(Request $request)
         $file = $request->file('filelinks');
         $filename = time() . '_' . $file->getClientOriginalName();
         $path = $file->storeAs('uploads/'.$request->groupname, $filename, 'public');
-        $data['filelinks'] = '/storage/' . $path;
+        $data['filelinks'] = 'uploads/' .$request->groupname.'/'. $filename;
     }
 
     Post::create($data);
@@ -68,12 +69,22 @@ public function update(Request $request, $id)
         $file = $request->file('filelinks');
         $filename = time() . '_' . $file->getClientOriginalName();
         $path = $file->storeAs('uploads/'.$request->groupname, $filename, 'public');
-        $data['filelinks'] = '/storage/' . $path;
+        $data['filelinks'] = 'uploads/' .$request->groupname.'/'. $filename;
     }
 
     $post->update($data);
 
     return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+}
+
+public function download(Post $post)
+{
+    // Ensure the file exists before attempting to download
+    if (Storage::disk('public')->exists($post->filelinks)) {
+        return Storage::disk('public')->download($post->filelinks);
+    }
+
+    return back()->with('error', 'File not found.');
 }
 
 

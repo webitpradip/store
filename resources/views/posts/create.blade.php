@@ -22,7 +22,7 @@
                 <label>Group Name:</label>
                 <input type="text" name="groupname" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary" style="background-color: green">Submit</button>
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>
 </div>

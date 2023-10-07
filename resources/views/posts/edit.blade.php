@@ -24,7 +24,7 @@
                 <label>Group Name:</label>
                 <input type="text" name="groupname" class="form-control" value="{{ $post->groupname }}" required>
             </div>
-            <button type="submit" class="btn btn-primary" style="background-color: green">Update</button>
+            <button type="submit" class="btn btn-success">Update</button>
         </form>
     </div>
 </div>

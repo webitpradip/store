@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +23,11 @@ Route::get('dashboard', function () {
     return redirect(route('posts.index'));
 })->name('dashboard');
 
+Route::group(['namespace'=>'\\App\\Http\\Controllers'],function(){
+    Route::resource('posts', 'PostController');
+    Route::get('/download/{post}', 'PostController@download')->name('post.download');
 
-Route::resource('posts', '\\App\\Http\\Controllers\\PostController')->middleware(['auth', 'verified']);
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';
