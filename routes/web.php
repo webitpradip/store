@@ -26,8 +26,10 @@ Route::get('dashboard', function () {
 Route::group(['namespace'=>'\\App\\Http\\Controllers'],function(){
     Route::resource('posts', 'PostController');
     Route::get('/download/{post}', 'PostController@download')->name('post.download');
-
+    Route::get('/download-backup', 'PostController@downloadBackup')->name('backup.download');
 });
+
+
 
 
 require __DIR__.'/auth.php';

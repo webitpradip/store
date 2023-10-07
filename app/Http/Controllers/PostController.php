@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PostController extends Controller
 {
@@ -87,5 +88,59 @@ public function download(Post $post)
     return back()->with('error', 'File not found.');
 }
 
+public function downloadBackup(){
+    $config = config('database.connections.mysql');
+    $command = sprintf(
+        'mysqldump --user=%s --password=%s --host=%s %s > %s',
+        $config['username'],
+        $config['password'],
+        $config['host'],
+        $config['database'],
+        storage_path('app/public/db_backup.sql')
+    );
+
+    shell_exec($command);
+
+    $zipFile = storage_path('app/public/storage_and_db.zip');
+$zip = new \ZipArchive();
+
+if ($zip->open($zipFile, \ZipArchive::CREATE) === TRUE) {
+    $files = new \RecursiveIteratorIterator(
+        new \RecursiveDirectoryIterator(storage_path('app/public')),
+        \RecursiveIteratorIterator::LEAVES_ONLY
+    );
+
+    foreach ($files as $name => $file) {
+        if (!$file->isDir()) {
+            $filePath = $file->getRealPath();
+            $relativePath = 'storage/public/' . substr($filePath, strlen(storage_path('app/public')) + 1);
+            $zip->addFile($filePath, $relativePath);
+        }
+    }
+
+    $zip->close();
+}
+
+$zipFileName = 'storage_and_db.zip';
+$dbBackupFileName = 'db_backup.sql';
+
+$response = new StreamedResponse(function () use ($zipFileName, $dbBackupFileName) {
+    // Stream the file to the user
+    $stream = Storage::disk('public')->readStream($zipFileName);
+    fpassthru($stream);
+    if (is_resource($stream)) {
+        fclose($stream);
+    }
+
+    // After streaming the file, delete the files
+    Storage::disk('public')->delete($zipFileName);
+    Storage::disk('public')->delete($dbBackupFileName);
+});
+
+$response->headers->set('Content-Type', 'application/zip');
+$response->headers->set('Content-Disposition', 'attachment; filename="' . $zipFileName . '"');
+
+return $response;
+}
 
 }
