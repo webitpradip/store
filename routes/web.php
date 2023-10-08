@@ -27,6 +27,9 @@ Route::group(['namespace'=>'\\App\\Http\\Controllers'],function(){
     Route::resource('posts', 'PostController');
     Route::get('/download/{post}', 'PostController@download')->name('post.download');
     Route::get('/download-backup', 'PostController@downloadBackup')->name('backup.download');
+    Route::get('/download-backup-db', 'PostController@downloadBackupDB')->name('backup.download-db');
+
+
 });
 
 

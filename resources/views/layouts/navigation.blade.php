@@ -13,7 +13,10 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('backup.download') }}">Backup</a>
-          </li>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('backup.download-db') }}">Backup DB</a>
+        </li>
 
     </div>
 </nav>

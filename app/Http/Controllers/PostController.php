@@ -143,4 +143,47 @@ $response->headers->set('Content-Disposition', 'attachment; filename="' . $zipFi
 return $response;
 }
 
+
+public function downloadBackupDB(){
+    $backupPath = storage_path('app/public/db_backup.sql');
+
+    // Check if the backup file exists, and if not, create it
+    if (!file_exists($backupPath)) {
+        $config = config('database.connections.mysql');
+        $command = sprintf(
+            'mysqldump --user=%s --password=%s --host=%s %s > %s',
+            $config['username'],
+            $config['password'],
+            $config['host'],
+            $config['database'],
+            $backupPath
+        );
+        shell_exec($command);
+    }
+
+    // Check if the backup file exists again (in case of a failed backup creation)
+    if (file_exists($backupPath)) {
+        // Set appropriate headers for downloading
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="db_backup.sql"');
+        header('Content-Length: ' . filesize($backupPath));
+
+        // Read and output the backup file
+        readfile($backupPath);
+
+        // Delete the backup file after download
+        unlink($backupPath);
+
+        exit;
+    } else {
+        // Handle backup creation failure or other errors
+        // You can return an error message or redirect the user to an error page.
+        // Example: return response('Backup creation failed', 500);
+        echo "File not found";
+    }
+}
+
+
+
+
 }
