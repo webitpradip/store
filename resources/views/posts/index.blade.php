@@ -16,7 +16,6 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Description</th>
                     <th>File Preview</th>
                     <th>Group Name</th>
                     <th>Created Date</th>
@@ -27,7 +26,6 @@
                 @foreach($posts as $post)
                 <tr>
                     <td>{{ $post->title }}</td>
-                    <td>{{ $post->description }}</td>
                     <td>
                       @if(!empty($post->filelinks))
                       @php
