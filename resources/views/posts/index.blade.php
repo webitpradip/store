@@ -57,7 +57,7 @@
             </tbody>
         </table>
 
-        {{ $posts->appends(['search' => request()->query('search')])->links() }}
+        {!! $posts->appends(['search' => request()->query('search')])->links() !!}
     </div>
 </div>
 @endsection
